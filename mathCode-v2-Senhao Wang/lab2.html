@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+		#TopBar{
+			text-align:center;
+			font-size:40px;
+			width:590px;
+			height:90px;
+			padding:10px;
+			color:#ca5627;
+		}
+		#Quiz{
+			text-align:center;
+			font-size:60px;
+			height:140px;
+			width:590px;
+			color:blue;
+		}
+		#Play{
+			text-align:center;
+			height:540px;
+			width:590px;
+			
+		}
+		button{
+			border: none;
+			width: 100px;
+			height:100px;
+			border-color:transparent;
+			
+		}
+		button:active{
+ 			box-shadow: 0 5px #666;
+ 			transform: translateY(4px);
+		}
+		button:focus{
+ 			outline:none;
+		}
+    </style>
+</head>
+<script>
+	var left=3, right=2;
+	var result=left+right;
+
+	function new_Quiz(){
+		left=Math.floor((Math.random() * 4) + 1);
+		right=Math.floor((Math.random() * 4) + 1);
+		result=left+right;
+		document.getElementById("Quiz").innerHTML = left+" +"+right+" =?";
+	}
+
+	function check_answer(buttonID){
+		if(result==buttonID){
+			document.getElementById("TopBar").style.color="green";
+			document.getElementById("TopBar").innerHTML = "Well Done!";
+			new_Quiz();
+		}
+		else{
+			document.getElementById("TopBar").style.color="red";
+			document.getElementById("TopBar").innerHTML = "Sorry!Wrong!";
+		}
+	}
+	
+	
+</script>
+<body>
+
+    <div style="border:5px solid rgb(159, 252, 179);height:800px;width:600px">
+
+    <div id="TopBar">
+		Quiz Starts!
+	</div>
+    
+    <div id="Quiz">
+		3 + 2 = ?
+    </div>
+    
+		<div id="Play">
+		
+		<button id="1" style="background: url(images/number1.png); background-size: contain;"onclick="check_answer(this.id)" > </button>
+		<button id="2" style="background: url(images/number2.png); background-size: contain;"onclick="check_answer(this.id)" > </button>
+		<button id="3" style="background: url(images/number3.png); background-size: contain;"onclick="check_answer(this.id)" > </button><br>
+		<button id="4" style="background: url(images/number4.png); background-size: contain;"onclick="check_answer(this.id)" > </button>
+		<button id="5" style="background: url(images/number5.png); background-size: contain;"onclick="check_answer(this.id)" > </button>
+		<button id="6" style="background: url(images/number6.png); background-size: contain;"onclick="check_answer(this.id)" > </button><br>
+		<button id="7" style="background: url(images/number7.png); background-size: contain;"onclick="check_answer(this.id)" > </button>
+		<button id="8" style="background: url(images/number8.png); background-size: contain;"onclick="check_answer(this.id)" > </button>
+		<button id="9" style="background: url(images/number9.png); background-size: contain;"onclick="check_answer(this.id)" > </button><br>
+		<button id="0" style="background: url(images/number0.png); background-size: contain;"onclick="check_answer(this.id)" >    </button>
+    </div>
+    
+	</div>
+     
+    </body>
+</html>
