@@ -65,7 +65,6 @@
 	var userInput="";
 	var exerciseType="add";
 	var levelValue=1;
-	var levelState=1;
 	
 	function buttonPressed(buttonID){
 		userInput+=buttonID;
@@ -74,33 +73,24 @@
     	document.getElementById("Quiz").innerHTML = words.join(" ");
 	}
 
-	function new_Quiz(){
-		if(levelValue==1){
-		left=Math.floor((Math.random() * 5) + 1);
-		right=Math.floor((Math.random() * 5) + 1);
-		}
-		if(levelValue==2){
-		left=Math.floor((Math.random() * 5) + 6);
-		right=Math.floor((Math.random() * 5) + 6);
-		}
-		if(levelValue==3){
-		left=Math.floor((Math.random() * 5) + 11);
-		right=Math.floor((Math.random() * 5) + 11);
-		}
-		if(levelValue==4){
-		left=Math.floor((Math.random() * 5) + 16);
-		right=Math.floor((Math.random() * 5) + 16);
-		}
-		if(levelValue==5){
-		left=Math.floor((Math.random() * 5) + 21);
-		right=Math.floor((Math.random() * 5) + 21);
-		}
-
+	function new_Quiz(level,type){
+		levelValue=level;
+		exerciseType=type;
+		
+		var max = 5*levelValue;
+		var min = 1+5*(levelValue-1);
+		left = Math.floor(Math.random() * (max - min + 1)) + min;
+		right = Math.floor(Math.random() * (max - min + 1)) + min;
+		
 		if(exerciseType=="add"){
 		result=left+right;
 		document.getElementById("Quiz").innerHTML = left+" + "+right+" = ?";
 		}
 		if(exerciseType=="subtraction"){
+			while(left<right){
+			left = Math.floor(Math.random() * (max - min + 1)) + min;
+			right = Math.floor(Math.random() * (max - min + 1)) + min;
+			}
 		result=left-right;
 		document.getElementById("Quiz").innerHTML = left+" - "+right+" = ?";
 		}
@@ -109,7 +99,7 @@
 		document.getElementById("Quiz").innerHTML = left+" × "+right+" = ?";
 		}
 		if(exerciseType=="division"){
-		result=left/right;
+		result= Math.trunc(left/right);
 		document.getElementById("Quiz").innerHTML = left+" / "+right+" = ?";
 		}
 	}
@@ -118,7 +108,7 @@
 		if(result==parseInt(userInput)){
 			document.getElementById("TopBar").style.color="green";
 			document.getElementById("TopBar").innerHTML = "Well Done!";
-			new_Quiz();
+			new_Quiz(levelValue,exerciseType);
 		}
 		else{
 			document.getElementById("TopBar").style.color="red";
@@ -127,32 +117,7 @@
 		}
 		userInput="";
 	}
-	function TransformCal(buttonID){
-		exerciseType=buttonID;
-		if(levelState==1){
-			if(exerciseType=="add"){
-			result=left+right;
-			document.getElementById("Quiz").innerHTML = left+" + "+right+" = ?";
-			}
-			if(exerciseType=="subtraction"){
-			result=left-right;
-			document.getElementById("Quiz").innerHTML = left+" - "+right+" = ?";
-			}
-			if(exerciseType=="multiply"){
-			result=left*right;
-			document.getElementById("Quiz").innerHTML = left+" × "+right+" = ?";
-			}
-			if(exerciseType=="division"){
-			result=left/right;
-			document.getElementById("Quiz").innerHTML = left+" / "+right+" = ?";
-			}
-		}
-		else{
-			new_Quiz();
-			levelState=1;
-		}
-	}
-
+	
 	function changeLevel() {
 		levelState=0;
 		levelValue = document.getElementById('range').value ;
@@ -166,14 +131,14 @@
 	<div id="Selection">
 		<div id="Transform">
 			Select Game</br>
-		<button id="add" style="width:50px;height:50px;background: url(images/math_add.png); background-size: contain;"onclick="TransformCal(this.id)" > </button>
-		<button id="subtraction" style="width:50px;height:50px;background: url(images/math_subtraction.png); background-size: contain;"onclick="TransformCal(this.id)" > </button>
-		<button id="multiply" style="width:50px;height:50px;background: url(images/math_multiply.png); background-size: contain;"onclick="TransformCal(this.id)" > </button>
-		<button id="division" style="width:50px;height:50px;background: url(images/math_division.png); background-size: contain;"onclick="TransformCal(this.id)" > </button>
+		<button id="add" style="width:50px;height:50px;background: url(images/math_add.png); background-size: contain;"onclick="new_Quiz(levelValue,this.id)" > </button>
+		<button id="subtraction" style="width:50px;height:50px;background: url(images/math_subtraction.png); background-size: contain;"onclick="new_Quiz(levelValue,this.id)" > </button>
+		<button id="multiply" style="width:50px;height:50px;background: url(images/math_multiply.png); background-size: contain;"onclick="new_Quiz(levelValue,this.id)" > </button>
+		<button id="division" style="width:50px;height:50px;background: url(images/math_division.png); background-size: contain;"onclick="new_Quiz(levelValue,this.id)" > </button>
 		</div>
 		<div id="Level">
 			Select Level</br>
-			<input type="range" id="range" min="1" max="6" step="1" onchange="changeLevel()" value="1"></br>
+			<input type="range" id="range" min="1" max="5" step="1" onchange="changeLevel()" value="1"></br>
 			<span id="levelValue">1</span>
 			
 		</div>
